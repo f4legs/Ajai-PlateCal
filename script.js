@@ -35,6 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const firstDigitInput = document.getElementById('firstDigitInput');
     const thaiCharsInput = document.getElementById('thaiCharsInput');
 
+    // Get references for the new sum calculation feature
+    const calculateSumInput = document.getElementById('calculateSumInput');
+    const calculateSumButton = document.getElementById('calculateSumButton');
+    const calculateSumResultsPre = document.getElementById('calculateSumResults');
+
     // Default 'badNumbers' array containing two-digit strings.
     // This will be displayed in the textarea initially.
     const defaultBadNumbers = [
@@ -241,6 +246,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Add event listener for the calculate sum button
+    calculateSumButton.addEventListener('click', () => {
+        const inputString = calculateSumInput.value.trim();
+
+        if (inputString) {
+            const sum = calculateInputSum(inputString);
+            calculateSumResultsPre.textContent = `The calculated sum is: ${sum}`;
+        } else {
+            calculateSumResultsPre.textContent = "Please enter a string to calculate the sum.";
+        }
+    });
+
     // Initial generation based on the default bad numbers when the page loads
     generateButton.click();
 });
@@ -271,6 +288,49 @@ function convertThaiCharactersToNumber(thaiInput) {
             if (entry.characters.includes(char)) {
                 totalValue += entry.value;
                 break; // Stop searching once we find a match
+            }
+        }
+    }
+    return totalValue;
+}
+
+/**
+ * this function is a utility, it will calculate the summary of the number+characters of the input like "1กก 5360" or any length or combination
+ * the logic was easy use existing char translation to number and sum it with the all numbers in the input, and we only sum of each digit fo the in put like "1234" is 1+2+3+4 = 10
+ * @param {string} input - The input string containing numbers and Thai characters.
+ */
+
+function calculateInputSum(input) {
+    const conversionMap = [
+        { "characters": "กดถทภ", "value": 1 },
+        { "characters": "ขบปงช", "value": 2 },
+        { "characters": "ตฒฆ", "value": 3 },
+        { "characters": "คธรญษ", "value": 4 },
+        { "characters": "ฉณฌนมหฮฎฬ", "value": 5 },
+        { "characters": "จลวอ", "value": 6 },
+        { "characters": "ศส", "value": 7 },
+        { "characters": "ยผฝพฟ", "value": 8 },
+        { "characters": "ฐ", "value": 9 }
+    ];
+
+    let totalValue = 0;
+    const regex = /\d+|[ก-ฮ]/g; // Match numbers and Thai characters
+
+    const matches = input.match(regex);
+    if (matches) {
+        for (const match of matches) {
+            if (!isNaN(match)) {
+                // Iterate over each digit and add it to the totalValue
+                for (const digitChar of match) {
+                    totalValue += parseInt(digitChar, 10);
+                }
+            } else {
+                for (const entry of conversionMap) {
+                    if (entry.characters.includes(match)) {
+                        totalValue += entry.value; // Sum Thai character values
+                        break; // Stop searching once we find a match
+                    }
+                }
             }
         }
     }
