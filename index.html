@@ -1,92 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Number Generator</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
+
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
-    <div class="container bg-white rounded-xl shadow-lg p-6 md:p-8 max-w-2xl w-full">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">Ajai Number Generator</h1>
-
-        <!-- Message Box for user feedback -->
-        <div id="messageBox" class="message-box rounded-lg p-4 mb-4 text-sm hidden">
-            <p id="messageText"></p>
+    <div class="container bg-white rounded-xl shadow-lg p-0 max-w-2xl w-full overflow-hidden">
+        <div class="bg-indigo-600 p-6 text-center">
+            <h1 class="text-2xl font-bold text-white">Ajai Number Generator</h1>
+            <p class="text-indigo-100 text-sm mt-1">Find your perfect car plate number</p>
         </div>
 
-        <div class="mb-4">
-            <label for="badNumbersInput" class="block text-gray-700 text-sm font-medium mb-2 text-left">
-                Editable list of 2-digit sequences to exclude (comma-separated, e.g., "00,01,23"):
-            </label>
-            <textarea
-                id="badNumbersInput"
-                class="w-full h-32 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-800"
-                placeholder="e.g., 00,01,12,34"
-            ></textarea>
-        </div>
-        <div class="mb-4">
-            <label for="firstDigitInput" class="block text-gray-700 text-sm font-medium mb-2 text-left">
-                First digit (0-9):
-            </label>
-            <input
-                type="number"
-                id="firstDigitInput"
-                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-800"
-                placeholder="e.g., 1"
-                min="0"
-                max="9"
-            />
-        </div>
-        <div class="mb-4">
-            <label for="thaiCharsInput" class="block text-gray-700 text-sm font-medium mb-2 text-left">
-                Two Thai characters (ก-ฮ):
-            </label>
-            <input
-                type="text"
-                id="thaiCharsInput"
-                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-800"
-                placeholder="e.g., กข"
-                maxlength="2"
-            />
-        </div>
-        <button
-            id="generateButton"
-            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition transform hover:scale-105"
-        >
-            Generate Numbers
-        </button>
-        <div id="results-container" class="mt-6 border border-gray-200 rounded-lg p-4 bg-gray-50 overflow-y-auto max-h-96">
-            <h2 class="text-xl font-semibold text-gray-700 mb-3 text-left">Generated Numbers:</h2>
-            <pre id="results" class="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap"></pre>
+        <!-- Tab Navigation -->
+        <div class="flex border-b border-gray-200">
+            <button id="tab-generator"
+                class="flex-1 py-4 text-sm font-medium text-indigo-600 border-b-2 border-indigo-600 focus:outline-none transition-colors duration-200">
+                Generator
+            </button>
+            <button id="tab-calculator"
+                class="flex-1 py-4 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none transition-colors duration-200">
+                Calculator
+            </button>
         </div>
 
-        <hr class="my-8 border-gray-300">
+        <div class="p-6 md:p-8">
+            <!-- Message Box for user feedback -->
+            <div id="messageBox" class="message-box rounded-lg p-4 mb-6 text-sm hidden">
+                <p id="messageText"></p>
+            </div>
 
-        <!-- Input section for calculateInputSum function -->
-        <div class="mb-4">
-            <label for="calculateSumInput" class="block text-gray-700 text-sm font-medium mb-2 text-left">
-                Input string for sum calculation (e.g., "1กก 5360"):
-            </label>
-            <input
-                type="text"
-                id="calculateSumInput"
-                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-800"
-                placeholder="e.g., 1กก 5360"
-            />
-        </div>
-        <button
-            id="calculateSumButton"
-            class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition transform hover:scale-105 mb-4"
-        >
-            Calculate Input Sum
-        </button>
-        <div id="calculateSumResults-container" class="mt-4 border border-gray-200 rounded-lg p-4 bg-gray-50">
-            <h2 class="text-xl font-semibold text-gray-700 mb-3 text-left">Input Sum Result:</h2>
-            <pre id="calculateSumResults" class="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap"></pre>
+            <!-- Generator Section -->
+            <div id="generator-section" class="space-y-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="firstDigitInput" class="block text-gray-700 text-sm font-semibold mb-2">
+                            First Digit (0-9)
+                        </label>
+                        <input type="number" id="firstDigitInput"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 text-lg text-center placeholder-gray-400 transition-shadow"
+                            placeholder="1" min="0" max="9" />
+                    </div>
+                    <div>
+                        <label for="thaiCharsInput" class="block text-gray-700 text-sm font-semibold mb-2">
+                            Thai Chars (ก-ฮ)
+                        </label>
+                        <input type="text" id="thaiCharsInput"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 text-lg text-center placeholder-gray-400 transition-shadow"
+                            placeholder="กข" maxlength="2" />
+                    </div>
+                </div>
+
+                <button id="generateButton"
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition transform active:scale-95 flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 5a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0v-1H3a1 1 0 010-2h1v-1a1 1 0 011-1zm5-5a1 1 0 011 1v1h1a1 1 0 010 2h-1v1a1 1 0 01-2 0V6h-1a1 1 0 010-2h1V3a1 1 0 011-1zm0 5a1 1 0 011 1v1h1a1 1 0 010 2h-1v1a1 1 0 01-2 0v-1h-1a1 1 0 010-2h1v-1a1 1 0 011-1zM5 12a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0v-1H3a1 1 0 010-2h1v-1a1 1 0 011-1zm5 0a1 1 0 011 1v1h1a1 1 0 010 2h-1v1a1 1 0 01-2 0v-1h-1a1 1 0 010-2h1v-1a1 1 0 011-1z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Generate Numbers
+                </button>
+
+                <details class="group border border-gray-200 rounded-lg bg-gray-50">
+                    <summary
+                        class="flex justify-between items-center font-medium cursor-pointer list-none p-4 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                        <span>Advanced Options (Exclude Numbers)</span>
+                        <span class="transition group-open:rotate-180">
+                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24"
+                                width="24">
+                                <path d="M6 9l6 6 6-6"></path>
+                            </svg>
+                        </span>
+                    </summary>
+                    <div class="text-gray-600 p-4 pt-0 border-t border-gray-200 mt-2">
+                        <label for="badNumbersInput"
+                            class="block text-xs font-medium mb-2 text-gray-500 uppercase tracking-wide mt-3">
+                            Excluded 2-digit sequences (comma-separated)
+                        </label>
+                        <textarea id="badNumbersInput"
+                            class="w-full h-24 px-3 py-2 rounded-md border border-gray-300 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+                            placeholder="e.g., 00,01,12,34"></textarea>
+                    </div>
+                </details>
+
+                <div id="results-container"
+                    class="hidden mt-6 border border-gray-200 rounded-xl bg-gray-50 overflow-hidden">
+                    <div class="bg-gray-100 px-4 py-2 border-b border-gray-200">
+                        <h2 class="text-sm font-bold text-gray-700 uppercase tracking-wide">Results</h2>
+                    </div>
+                    <div class="p-4 max-h-96 overflow-y-auto">
+                        <pre id="results"
+                            class="text-gray-600 text-sm font-mono leading-relaxed whitespace-pre-wrap"></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculator Section -->
+            <div id="calculator-section" class="hidden space-y-6">
+                <div>
+                    <label for="calculateSumInput" class="block text-gray-700 text-sm font-semibold mb-2">
+                        Plate Number (e.g., 1กก 5360)
+                    </label>
+                    <input type="text" id="calculateSumInput"
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-900 text-lg placeholder-gray-400 transition-shadow"
+                        placeholder="e.g., 1กก 5360" />
+                </div>
+                <button id="calculateSumButton"
+                    class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition transform active:scale-95 flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Calculate Sum
+                </button>
+                <div id="calculateSumResults-container"
+                    class="hidden mt-6 border border-gray-200 rounded-xl bg-gray-50 overflow-hidden">
+                    <div class="bg-gray-100 px-4 py-2 border-b border-gray-200">
+                        <h2 class="text-sm font-bold text-gray-700 uppercase tracking-wide">Calculation Result</h2>
+                    </div>
+                    <div class="p-4">
+                        <pre id="calculateSumResults" class="text-gray-800 text-lg font-medium text-center"></pre>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="script.js?v=2"></script>
 </body>
+
 </html>

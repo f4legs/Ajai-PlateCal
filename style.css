@@ -1,97 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 body {
     font-family: "Inter", sans-serif;
-    background-color: #f0f4f8;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.container {
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    padding: 30px;
-    width: 100%;
-    max-width: 600px;
-    text-align: center;
+/* Custom scrollbar for results */
+#results-container pre::-webkit-scrollbar {
+    width: 8px;
 }
 
-textarea,
-button {
-    border-radius: 8px;
-    padding: 12px 18px;
-    font-size: 1rem;
-    margin: 10px 0;
-    border: 1px solid #cbd5e1;
-    transition: all 0.3s ease;
+#results-container pre::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
 }
 
-textarea:focus {
-    border-color: #6366f1;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+#results-container pre::-webkit-scrollbar-thumb {
+    background: #c7c7c7;
+    border-radius: 4px;
 }
 
-button {
-    background-color: #6366f1;
-    color: white;
-    cursor: pointer;
-    border: none;
-    width: 100%;
+#results-container pre::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
 }
 
-button:hover {
-    background-color: #4f46e5;
-    transform: translateY(-2px);
+/* Hide number input arrows */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }
 
-#results-container {
-    margin-top: 20px;
-    max-height: 400px;
-    overflow-y: auto;
-    background-color: #f8fafc;
-    border-radius: 8px;
-    padding: 15px;
-    border: 1px solid #e2e8f0;
-    text-align: left;
+/* Smooth details summary marker rotation */
+details > summary {
+  list-style: none;
 }
-
-#results {
-    white-space: pre-wrap;
-    /* Preserves newlines and spaces */
-    word-break: break-all;
-    /* Breaks long words */
-    color: #334155;
-    font-size: 0.9rem;
+details > summary::-webkit-details-marker {
+  display: none;
 }
-
-.message-box {
-    background-color: #fef3c7;
-    color: #92400e;
-    border: 1px solid #fcd34d;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 20px;
-    font-size: 0.9rem;
-    display: none;
-    /* Hidden by default */
-}
-
-.message-box.show {
-    display: block;
-}
-
-/* #rules {
-    text-align: left;
-    font-size: 0.9rem;
-    color: #475569;
-    margin-top: 20px;
-}
-
-#rules > ul > li {
-    color: hsl(0, 3%, 31%);
-    font-size: 0.8em;
-} */
